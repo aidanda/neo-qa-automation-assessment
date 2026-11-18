@@ -1,48 +1,101 @@
-# Neo QA automation assessment
+# Neo QA Automation Assessment
 
-In order to complete this test, you will need to clone this repository and run Cypress locally.
-Please follow the setup instructions below to ensure that everything is set up correctly before continuing to the task below.
+## Project Overview
 
-## Setup instructions
+This project contains a Cypress automated test suite for the Shino Parking Calculator demo application.
 
-1. Ensure that you have a recent version of [Node JS](https://nodejs.org) installed. 
-We recommend installing Node v20.9.0 to ensure compatibility, but other recent Node versions may also work.
+The assessment covers manual exploratory testing, bug reporting and automated functional testing of the parking cost calculations.
 
-2. Clone this repository and navigate to its location in your terminal or command prompt.
+**Application:** [https://www.shino.de/parkcalc/](https://www.shino.de/parkcalc/)
 
-3. Run `npm install` and wait for the dependencies to install. 
-If you encounter errors, ensure that you're running a compatible version of Node JS.
+## Technologies Used
 
-4. Run `npm run test` to open Cypress.
+- Cypress 16.3.0
+- TypeScript 5.9.3
+- Node.js
+- JSON test data
+- Page Object Model
 
-## The task
+## Project Structure
 
-Here is a link for a demo parking app: http://www.shino.de/parkcalc/. 
-Please take a look at the app, then complete the steps below.
+```text
+qa-automation-test-cypress/
+│
+├── cypress/
+│   ├── e2e/
+│   │   └── parking-calculator.cy.ts
+│   ├── fixtures/
+│   │   └── parkingData.json
+│   └── pages/
+│       └── ParkingCalculatorPage.ts
+│
+├── bug_screenshots/
+├── README.md
+├── cypress.config.ts
+├── package.json
+└── package-lock.json
+```
 
-1. Find 3 bugs in the parking app and write a bug report for each.
-   1. Include all relevant information that you would normally include in a bug report.
-2. Write a small automated test suite for the parking app within this repository.
-   1. Include tests for **at least two** of the selectable parking lots, using the displayed parking rates to determine the expected result of each cost calculation.
-   2. Include **at least one** test that fails, proving one of the bugs you found in step 1.
-   3. You can write your tests using Gherkin or standard Cypress syntax. A simple example of each has been provided.
-   4. If you wish, you can use the `commands.ts` file or create your own files to add reusable methods, indicating how you might start to construct a testing framework.
+## Setup Instructions
 
-## Submitting your solution
+1. Ensure that Node.js is installed. Node.js 20.9.0 or a compatible version is recommended.
+2. Clone this repository and navigate to the project directory.
+3. Install the dependencies:
 
-When you have completed this task, please follow the steps below to submit your solution for assessment.
+```bash
+npm install
+```
 
-1. Write an email including the following information
-   1. Your 3 bug reports
-   2. Any information you'd like us to know about your approach to writing the automated test suite
-   3. A brief summary of what you would do next if you had more time to work on this project
-2. Compress the `cypress` folder of this repository into a zip file and attach it to the email
-3. Send the email to mh@neoftl.com
+## Running the Tests
 
-You may be asked to present your solution at interview, and we will discuss the approach you took.
+**Open Cypress interactively:**
 
-## Useful links
+```bash
+npm run test
+```
 
-* [Node JS](https://nodejs.org) version 20.9.0
-* [Cypress](https://www.cypress.io/) version 13.4.0
-* [Cypress Cucumber Preprocessor](https://github.com/badeball/cypress-cucumber-preprocessor/blob/master/docs/quick-start.md#write-a-test)
+**Run the automated test suite from the command line:**
+
+```bash
+npm run test:run
+```
+
+## Automated Test Coverage
+
+The Cypress test suite contains 39 tests covering:
+
+- Parking cost calculations across the selectable parking options.
+- Happy path scenarios using the displayed parking rates.
+- Boundary conditions, including hourly and daily maximum rates.
+- Negative scenarios involving missing input values.
+- Known application defects.
+
+### Latest Test Results
+
+| Result  | Tests |
+| ------- | ----: |
+| Passing |    38 |
+| Failing |     1 |
+| Total   |    39 |
+
+**Note:** BT14 is intentionally left failing. It demonstrates BUG-004, where Economy Parking returns an incorrect charge for a 4-hour-30-minute stay.
+
+The expected charge is $9.00, based on the displayed daily maximum, but the application returns $10.00.
+
+## Bug Reports
+
+Four application bugs were identified and documented during exploratory testing.
+
+The associated screenshots are stored in the `bug_screenshots` directory.
+
+The bug reports include reproduction steps, actual and expected results, severity, impact and supporting evidence.
+
+## Testing Approach
+
+I initially verified all calculator scenarios with bruno to establish stability.&#x20;
+
+The automated tests use standard Cypress syntax with TypeScript.
+
+A Page Object Model is used to separate application interactions from test scenarios. Test data is maintained separately in a JSON fixture to support reuse and maintainability.
+
+The suite includes positive, boundary and negative test scenarios to provide coverage beyond basic parking cost calculations.
